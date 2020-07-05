@@ -18,7 +18,11 @@ C:\__dev__\Mirra-Engine\Mirra-Engine\obj\Debug\Mirra_Engine.Engine.resources
 C:\__dev__\Mirra-Engine\Mirra-Engine\bin\Debug\MetroFramework.Design.dll
 C:\__dev__\Mirra-Engine\Mirra-Engine\bin\Debug\MetroFramework.dll
 C:\__dev__\Mirra-Engine\Mirra-Engine\bin\Debug\MetroFramework.Fonts.dll
-C:\__dev__\Mirra-Engine\Mirra-Engine\bin\Debug\Shaders\fs.glsl
-C:\__dev__\Mirra-Engine\Mirra-Engine\bin\Debug\Shaders\vs.glsl
 C:\__dev__\Mirra-Engine\Mirra-Engine\bin\Debug\Assets\textures\brick.jpg
 C:\__dev__\Mirra-Engine\Mirra-Engine\bin\Debug\Assets\textures\OpenGL_test.png
+C:\__dev__\Mirra-Engine\Mirra-Engine\bin\Debug\Assets\textures\Debug_Grid.png
+C:\__dev__\Mirra-Engine\Mirra-Engine\bin\Debug\Shaders\lighting.frag
+C:\__dev__\Mirra-Engine\Mirra-Engine\bin\Debug\Shaders\shader.vert
+C:\__dev__\Mirra-Engine\Mirra-Engine\bin\Debug\Shaders\shader.frag
+C:\__dev__\Mirra-Engine\Mirra-Engine\bin\Debug\Assets\textures\wooden_box.png
+C:\__dev__\Mirra-Engine\Mirra-Engine\bin\Debug\Assets\textures\wooden_box_spec.png

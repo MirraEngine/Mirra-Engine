@@ -9,12 +9,14 @@ namespace Mirra_Engine.Graphics2D
     class Texture
     {
         public readonly int Handle;
-
+        public string Name;
+        
         // Creates a Texture from the specified _path_
-        public Texture(string path)
+        public Texture(string path, string name)
         {
             // Generate the handle
             Handle = GL.GenTexture();
+            Name = name;
 
             // Bind the handle
             Use();

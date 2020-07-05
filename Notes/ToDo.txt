@@ -1,0 +1,92 @@
+/////////////////////////////////////////////////////////////////////////
+//  APPLICATION  ////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+
+-- Think Tank -----------------------------------------------------------
+	* Should the Editor Class and the Engine Class Be Seperated?
+
+-------------------------------------------------------------------------
+
+/////////////////////////////////////////////////////////////////////////
+//  EDITOR  /////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+
+-- USER INTERFACE  ---------
+	-- Login/Register Window
+	
+	-- New Project Window
+		
+
+	-- Editor Window
+		[X] Toggle
+		[ ] Layouts
+		[ ] Resize
+
+		-- Console (Panel)
+			[ ] Display Logs From the Engines Logger Class
+
+		-- Heirarchy (Panel)
+			
+			-- Scene(Sub-Panel)
+				[ ] Displays All Objects inside the `Render Buffer`
+
+			-- New Object (Sub-Panel)
+				[ ] Displays Buttons For the User Click/Drag onto the SceneView
+					and have added to the `Render Buffer`
+
+		-- Inspector/Properties
+			[ ] Shows and Updates the Currently Selected GameObjects properties
+
+----------------------------
+
+
+/////////////////////////////////////////////////////////////////////////
+//  ENGINE  /////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+
+
+----- Renderer ---------------------
+
+Create a Class that can Handle the OpenGL rendering Pipeline.
+Within this Class Utalize a buffer to handle any Renderables/GameObjects
+
+
+------------------------------------
+
+
+Logger
+
+Create a Class that can handle writing logs to the Editors User Interface
+
+Game Objects
+	-- Each Game object is NEEDS to have : 
+	 [ ] Transform Component Attached to it.
+	 [ ] default Properties for its Transform that suit the editor.
+	 [ ] the ability to update Its Transform Component
+
+----------------------------
+
+-- 2D ----------------------
+  [ ] Quad
+  [ ] Cube
+  [ ] Terrain
+
+----------------------------
+
+-- 3D ----------------------
+  [ ] Cube
+  [ ] Cylinder
+  [ ] Sphere
+
+----------------------------
+
+
+/////////////////////////////////////////////////////////////////////////
+//  GAME  ///////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+
+-- Game Class ----
+
+	* How Should We Handle The Game Class
+
+------------------
