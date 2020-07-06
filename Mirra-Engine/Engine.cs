@@ -23,32 +23,42 @@ namespace Mirra_Engine
     {
         // Create a Square
 
-        private readonly float[] _quad_vertices =
-        {
-        //  |Position          |Texture Coordinates
-             0.5f,  0.5f, 0.0f, 1.0f, 0.0f,     // top-right 
-             0.5f, -0.5f, 0.0f, 1.0f, 1.0f,     // bottom-right 
-            -0.5f, -0.5f, 0.0f, 0.0f, 1.0f,     // bottom-left 
-            -0.5f,  0.5f, 0.0f, 0.0f, 0.0f,     // top-left 
-        };
-        private readonly uint[] _quad_indices = {
-            0,1,3,
-            1,2,3,
-        };
+        //private readonly float[] _quad_vertices =
+        //{
+        ////  |Position          |Texture Coordinates
+        //     0.5f,  0.5f, 0.0f, 1.0f, 0.0f,     // top-right 
+        //     0.5f, -0.5f, 0.0f, 1.0f, 1.0f,     // bottom-right 
+        //    -0.5f, -0.5f, 0.0f, 0.0f, 1.0f,     // bottom-left 
+        //    -0.5f,  0.5f, 0.0f, 0.0f, 0.0f,     // top-left 
+        //};
+        //private readonly uint[] _quad_indices = {
+        //    0,1,3,
+        //    1,2,3,
+        //};
 
+        private bool _loaded = false;
 
-        private readonly Vector3 _lightPosition = new Vector3(0.0f, 1.0f, 0.0f);
 
         private PerspectiveCamera _camera;
         private bool _firstMove = true;
         private Vector2 _lastPos;
         private bool _can_update = false;
 
+        // Editor Settings
         const float cameraSpeed = 1f;
         const float sensitivity = 0.2f;
 
-        private bool _loaded = false;
 
+        // Input Mannager
+        private bool cam_swivvel() {
+            KeyboardState key_state = Keyboard.GetState();
+            if (key_state.IsKeyDown(Key.AltLeft))
+            {
+                return true;
+            }
+            return false;
+        }
+        
         // SHAPES 
   
 
@@ -56,25 +66,83 @@ namespace Mirra_Engine
         Cube cube2;
 
         Vector3 sun_direction;
+        private readonly Vector3 _lightPosition = new Vector3(0.0f, 1.0f, 0.0f);
 
         public Engine()
         {
             InitializeComponent();
+            InitalizeGUI();
         }
 
-
-        private void TogglePanel(Panel p)
+        private void InitalizeGUI()
         {
+            // Close Each Panel
+            // Empty
+            NewEmptyOptions_Panel.Visible = false;
+            // Quad
+            NewQuadOptions_Panel.Visible = false;
+            // Plane
+            NewPlaneOptions_Panel.Visible = false;
+            // Terrain
+            NewTerrainOptions_Panel.Visible = false;
+            // Cube
+            NewCubeOptions_Panel.Visible = false;
+            // Cylinder
+            NewCylinderOptions_Panel.Visible = false;
+            // Sphere
+            NewSphereOptions_Panel.Visible = false;
 
-            if (p.Visible == true)
-            {
-                p.Visible = false;
+
+            //Inspector_Panel.Visible = false;
+        }
+
+        void HidePanels()
+        {
+            // Empty
+            if (NewEmptyOptions_Panel.Visible == true)
+                NewEmptyOptions_Panel.Visible = false;
+            // Quad
+            if (NewQuadOptions_Panel.Visible == true)
+                NewQuadOptions_Panel.Visible = false;
+            // Plane
+            if (NewPlaneOptions_Panel.Visible == true)
+                NewPlaneOptions_Panel.Visible = false;
+            // Terrain
+            if (NewTerrainOptions_Panel.Visible == true)
+                NewTerrainOptions_Panel.Visible = false;
+            // Cube
+            if (NewCubeOptions_Panel.Visible == true)
+                NewCubeOptions_Panel.Visible = false;
+            // Cylinder
+            if (NewCylinderOptions_Panel.Visible == true)
+                NewCylinderOptions_Panel.Visible = false;
+            // Sphere
+            if (NewSphereOptions_Panel.Visible == true)
+                NewSphereOptions_Panel.Visible = false;
+        }
+
+        private void TogglePanel(Panel panel)
+        {
+            if(panel.Visible == false) {
+                HidePanels();
+                panel.Visible = true;
             }
             else
             {
-                p.Visible = true;
+                panel.Visible = false;
             }
+        }
 
+        private void ToggleEditorPanel(Panel panel)
+        {
+            if (panel.Visible == false)
+            {
+                panel.Visible = true;
+            }
+            else
+            {
+                panel.Visible = false;
+            }
         }
 
         #region SCENE_VIEW 
@@ -125,24 +193,8 @@ namespace Mirra_Engine
             // To Calculate what needs to be rendering before actually 
             // rendering so we nee do tell it to "Swap" to its other Buffer
             // so that it can repeat the cycle
-            scene_view.SwapBuffers();
-        }
+            ////scene_view.SwapBuffers();
 
-        private void SceneView_OnResize(object sender, EventArgs e)
-        {
-            if (!_loaded)
-                return;
-            GL.Viewport(0, 0, scene_view.Width, scene_view.Height);
-            _camera.AspectRatio = scene_view.Width / (float)scene_view.Height;
-            scene_view.Invalidate();
-        }
-
-        private void SceneView_OnKeyDown(object sender, KeyEventArgs e)
-        {
-            if (!_can_update)
-            {
-                return;
-            }
 
 
             KeyboardState keyboard_state = Keyboard.GetState();
@@ -193,27 +245,47 @@ namespace Mirra_Engine
                 _lastPos = new Vector2(mouse_state.X, mouse_state.Y);
             }
 
+
+            if (cam_swivvel())
+            {
+                Mouse.SetPosition(Width / 2f, Height / 2f);
+                Cursor.Hide();
+            }
+            else
+            {
+                Cursor.Show();
+            }
+            // The Render Method uses the Double Buffer Strategy
+            // To Calculate what needs to be rendering before actually 
+            // rendering so we nee do tell it to "Swap" to its other Buffer
+            // so that it can repeat the cycle
+            scene_view.SwapBuffers();
+
+        }
+
+        private void SceneView_OnResize(object sender, EventArgs e)
+        {
+            if (!_loaded)
+                return;
+            GL.Viewport(0, 0, scene_view.Width, scene_view.Height);
+            _camera.AspectRatio = scene_view.Width / (float)scene_view.Height;
             scene_view.Invalidate();
         }
 
-        private void SceneView_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-
-        }
 
         private void Control_Heirarchy_Btn_Click(object sender, EventArgs e)
         {
-            TogglePanel(Heirarchy_Panel);
+            ToggleEditorPanel(Heirarchy_Panel);
         }
 
         private void Control_Inspector_Btn_Click(object sender, EventArgs e)
         {
-            TogglePanel(Inspector_Panel);
+            ToggleEditorPanel(Inspector_Panel);
         }
 
         private void Control_Console_Btn_Click(object sender, EventArgs e)
         {
-            TogglePanel(Console_Panel);
+            ToggleEditorPanel(Console_Panel);
         }
         #endregion
 
@@ -228,12 +300,71 @@ namespace Mirra_Engine
 
         }
 
-        private void SceneView_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void SceneView_Invalidate(object sender, System.Windows.Forms.MouseEventArgs e)
         {
+            scene_view.Invalidate();
         }
 
-        private void SceneView_MouseScroll(object sender, ScrollEventArgs e)
+        private void SceneView_KeyDown(object sender, KeyEventArgs e)
         {
+            scene_view.Invalidate();
+        }
+
+        private void CreateNewEmpty_Btn_Click(object sender, EventArgs e)
+        {
+            // ..
+            // Add Empty Object to Scene
+            // .. 
+        }
+
+        // Opens the New Empty Object Options Panel
+        private void NewEmpty_Btn_Click(object sender, EventArgs e)
+        {
+            TogglePanel(NewEmptyOptions_Panel);
+        }
+
+        // Opens the New Quad Options Panel
+        private void NewQuad_Btn_Click(object sender, EventArgs e)
+        {
+            TogglePanel(NewQuadOptions_Panel);
+        }
+
+        // Opens the New Plane Options Panel
+        private void NewPlane_Btn_Click(object sender, EventArgs e)
+        {
+            TogglePanel(NewPlaneOptions_Panel);
+        }
+
+        // Opens the New Terrain Options Panel
+        private void NewTerrain_Btn_Click(object sender, EventArgs e)
+        {
+            TogglePanel(NewTerrainOptions_Panel);
+        }
+
+
+        // Opens the New Cube Options Panel
+        private void NewCube_Btn_Click(object sender, EventArgs e)
+        {
+            TogglePanel(NewCubeOptions_Panel);
+        }
+
+        // Opens the New Cylinder Options Panel
+        private void NewCylinder_Btn_Click(object sender, EventArgs e)
+        {
+            TogglePanel(NewCylinderOptions_Panel);
+
+        }
+
+        // Opens the New Sphere Options Panel
+        private void NewSphere_Btn_Click(object sender, EventArgs e)
+        {
+            TogglePanel(NewSphereOptions_Panel);
+
+        }
+
+        private void scene_view_KeyUp(object sender, KeyEventArgs e)
+        {
+            scene_view.Invalidate();
         }
     }
 }

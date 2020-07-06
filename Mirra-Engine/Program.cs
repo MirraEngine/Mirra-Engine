@@ -23,7 +23,7 @@ namespace Mirra_Engine
             // ... 
             // ... 
             // ----> Login ---> New Project/Open Project --> Engine Window 
-            Application.Run(new Engine());
+            Application.Run(new EntryPoint());
         }
     }
 }
